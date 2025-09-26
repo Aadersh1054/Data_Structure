@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 100
+
+typedef struct {
+    int data[MAX];
+    int size;
+} LinearList;
+
+void insert(LinearList *list, int element, int position);
+void delete(LinearList *list, int position);
+int search(LinearList *list, int element);
+void display(LinearList *list);
+
+int main() {
+    LinearList list;
+    list.size = 0;
+    int choice, element, position;
+
+    while (1) {
+        printf("\n1.Insert\n2.Delete\n3.Search\n4.Display\n5.Exit\nEnter choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+            case 1:
+                printf("Element: ");
+                scanf("%d", &element);
+                printf("Position (0 to %d): ", list.size);
+                scanf("%d", &position);
+                insert(&list, element, position);
+                break;
+            case 2:
+                printf("Position (0 to %d): ", list.size - 1);
+                scanf("%d", &position);
+                delete(&list, position);
+                break;
+            case 3:
+                printf("Element: ");
+                scanf("%d", &element);
+                position = search(&list, element);
+                if (position != -1)
+                    printf("Found at position %d\n", position);
+                else
+                    printf("Not found\n");
+                break;
+            case 4:
+                display(&list);
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+    return 0;
+}
+
+void insert(LinearList *list, int element, int position) {
+    if (list->size == MAX || position < 0 || position > list->size) return;
+    for (int i = list->size; i > position; i--)
+        list->data[i] = list->data[i - 1];
+    list->data[position] = element;
+    list->size++;
+}
+
+void delete(LinearList *list, int position) {
+    if (list->size == 0 || position < 0 || position >= list->size) return;
+    for (int i = position; i < list->size - 1; i++)
+        list->data[i] = list->data[i + 1];
+    list->size--;
+}
+
+int search(LinearList *list, int element) {
+    for (int i = 0; i < list->size; i++)
+        if (list->data[i] == element)
+            return i;
+    return -1;
+}
+
+void display(LinearList *list) {
+    if (list->size == 0) {
+        printf("Empty\n");
+        return;
+    }
+    for (int i = 0; i < list->size; i++)
+        printf("%d ", list->data[i]);
+    printf("\n");
+}
+
+
+
+
+
+
+
+Ask ChatGPT
